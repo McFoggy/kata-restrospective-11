@@ -46,7 +46,6 @@ public class LexerTest {
     assertThrows(NullPointerException.class, () -> Lexer.create().tryParse(null));
   }
   
-  /*
   interface LexerFactory {
     Lexer<String> create(String regex);
   }
@@ -166,7 +165,8 @@ public class LexerTest {
   }
   @Tag("Q4") @Test
   public void testOrWithMapRecognized() {
-    var lexer = Lexer.from("([0-9]+)").<Object>map(Integer::parseInt).or(Lexer.from("([a-z_]+)"));
+    Lexer<Object> objectLexer = Lexer.from("([0-9]+)").<Object>map(Integer::parseInt);
+    var lexer = objectLexer.or(Lexer.from("([a-z_]+)"));
     assertAll(
         () -> assertEquals(17, lexer.tryParse("17").orElseThrow()),
         () -> assertEquals("foo", lexer.tryParse("foo").orElseThrow())
@@ -198,7 +198,6 @@ public class LexerTest {
     assertThrows(NullPointerException.class, () -> Lexer.from("(f)oo").or(null));
   }
 
-  
   @Tag("Q5") @Test
   public void testWith() {
     var lexer = Lexer.<Integer>create().with("(9)X?X?", Integer::parseInt);
@@ -209,6 +208,7 @@ public class LexerTest {
         () -> assertTrue(lexer.tryParse("XXX").isEmpty())
         );
   }
+
   @Tag("Q5") @Test
   public void testSeveralWiths() {
     var lexer = Lexer.create()
@@ -282,7 +282,7 @@ public class LexerTest {
         );
   }
   
-
+/*
   @Tag("Q6") @Test
   public void testFromTwoLists() {
     var lexer = Lexer.from(
