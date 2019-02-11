@@ -440,7 +440,6 @@ public class LexerTest {
     );
   }
 
-  /*
   @Tag("Q8") @Test
   public void testFromTwoListsWithOptimization() {
     var lexer1 = Lexer.from(List.of("(for)", "([a-z]+)"), List.of(__ -> 0,  __ -> 1));
@@ -469,7 +468,7 @@ public class LexerTest {
     assertSame(lexer1.getClass(), lexer4.getClass());
   }
   
-  
+  /*
   @Tag("Q9") @Test
   public void userDefinedLexer() {
     Lexer<String> lexer = text -> Optional.of(text);

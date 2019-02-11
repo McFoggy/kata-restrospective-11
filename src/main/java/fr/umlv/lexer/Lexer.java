@@ -87,8 +87,5 @@ public interface Lexer<T> {
     /**
      * A singleton instance of a Lexer that never recognizes anything.
      */
-    Lexer ALWAYS_EMPTY_LEXER = s -> {
-        Objects.requireNonNull(s);
-        return Optional.empty();
-    };
+    Lexer ALWAYS_EMPTY_LEXER = new PatternLexer();
 }

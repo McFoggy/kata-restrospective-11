@@ -15,7 +15,7 @@ class PatternLexer<T> implements Lexer<T> {
     private final List<Function<? super String, T>> mappers;
     private final Lazy<Optional<Pattern>> patternBuilder;
 
-    private PatternLexer() {
+    PatternLexer() {
         this.regexps = new ArrayList<>();
         this.mappers = new ArrayList<>();
         this.patternBuilder = Lazy.of(this::aggregatedPattern);
@@ -66,6 +66,8 @@ class PatternLexer<T> implements Lexer<T> {
 
     @Override
     public Lexer<T> with(String regexp, Function<? super String, T> mapper) {
+        Objects.requireNonNull(regexp);
+        Objects.requireNonNull(mapper);
         checkPatternHasExactlyOneCapturingGroup(regexp);
         ArrayList<String> regexps = new ArrayList<>(this.regexps);
         ArrayList<Function<? super String, T>> mappers = new ArrayList<>(this.mappers);
