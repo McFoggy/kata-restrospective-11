@@ -75,6 +75,27 @@ class PatternLexer<T> implements Lexer<T> {
         return new PatternLexer<>(regexps, mappers);
     }
 
+    @Override
+    public Lexer<T> or(Lexer<? extends T> other) {
+        Objects.requireNonNull(other);
+        if (other instanceof PatternLexer) {
+            PatternLexer opl = (PatternLexer) other;
+            List<String> combinedRegexps = new ArrayList<>(this.regexps);
+            combinedRegexps.addAll(opl.regexps);
+            List<Function<? super String, T>> combinedMappers = new ArrayList<>(this.mappers);
+            combinedMappers.addAll(opl.mappers);
+            return Lexer.from(combinedRegexps, combinedMappers);
+        }
+
+        return with("(.*)", s -> other.tryParse(s).orElse(null));
+    }
+
+    @Override
+    public <R> Lexer<R> map(Function<? super T, R> mapper) {
+        Objects.requireNonNull(mapper);
+        List<? extends Function<? super String, R>> mappedMappers = this.mappers.stream().map(f -> f.andThen(mapper)).collect(Collectors.toList());
+        return Lexer.from(this.regexps, mappedMappers);
+    }
 
     private void checkPatternHasExactlyOneCapturingGroup(String regexp) {
         checkPatternHasExactlyOneCapturingGroup(Pattern.compile(Objects.requireNonNull(regexp)));

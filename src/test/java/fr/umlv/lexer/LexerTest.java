@@ -389,7 +389,6 @@ public class LexerTest {
         );
   }
 
-  /*
   @Tag("Q7") @Test
   public void testFromTwoListsMapOptimization() {
     var lexer1 = Lexer.<Integer>from(List.of("(magic)", "([0-9]+)"), List.of(__ -> 333,  Integer::parseInt));
@@ -440,8 +439,8 @@ public class LexerTest {
       () -> assertTrue(lexer3.tryParse("aa").isPresent())
     );
   }
-  
-  
+
+  /*
   @Tag("Q8") @Test
   public void testFromTwoListsWithOptimization() {
     var lexer1 = Lexer.from(List.of("(for)", "([a-z]+)"), List.of(__ -> 0,  __ -> 1));
