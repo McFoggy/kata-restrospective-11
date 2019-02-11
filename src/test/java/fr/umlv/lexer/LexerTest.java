@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.Scanner;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -468,7 +469,6 @@ public class LexerTest {
     assertSame(lexer1.getClass(), lexer4.getClass());
   }
   
-  /*
   @Tag("Q9") @Test
   public void userDefinedLexer() {
     Lexer<String> lexer = text -> Optional.of(text);
@@ -507,5 +507,5 @@ public class LexerTest {
       () -> assertEquals("42", lexer2.tryParse("42").orElseThrow()),
       () -> assertEquals("hello", lexer2.tryParse("hello").orElseThrow())
     );
-  }*/
+  }
 }
