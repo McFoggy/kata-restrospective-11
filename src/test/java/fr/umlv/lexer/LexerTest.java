@@ -1,25 +1,20 @@
 package fr.umlv.lexer;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("static-method")
 public class LexerTest {
@@ -52,7 +47,7 @@ public class LexerTest {
   @SuppressWarnings("unused")
   private static Stream<LexerFactory> lexerFactories() {
     return Stream.of(
-        text -> Lexer.from(Pattern.compile(text)), Lexer::from //, Q6 text -> Lexer.from(List.of(text), List.of(x -> x))
+        text -> Lexer.from(Pattern.compile(text)), Lexer::from , text -> Lexer.from(List.of(text), List.of(x -> x))
         );
   }
   
@@ -281,8 +276,7 @@ public class LexerTest {
         () -> assertTrue(lexer.tryParse("XXX").isEmpty())
         );
   }
-  
-/*
+
   @Tag("Q6") @Test
   public void testFromTwoLists() {
     var lexer = Lexer.from(
@@ -394,8 +388,8 @@ public class LexerTest {
         () -> assertThrows(NullPointerException.class, () -> Lexer.from(List.of("(foo)"), List.of(x ->x)).tryParse(null))
         );
   }
-  
-  
+
+  /*
   @Tag("Q7") @Test
   public void testFromTwoListsMapOptimization() {
     var lexer1 = Lexer.<Integer>from(List.of("(magic)", "([0-9]+)"), List.of(__ -> 333,  Integer::parseInt));

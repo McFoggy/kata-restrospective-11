@@ -1,5 +1,6 @@
 package fr.umlv.lexer;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -75,18 +76,13 @@ public interface Lexer<T> {
      * @return a Lexer able to extract matched string from an input
      */
     static Lexer<String> from(Pattern pattern) {
-        if (Objects.requireNonNull(pattern).matcher("").groupCount() != 1) {
-            throw new IllegalArgumentException("pattern should have exactly one capturing group");
-        }
-
-        return s -> {
-            Matcher matcher = pattern.matcher(Objects.requireNonNull(s));
-            if (matcher.matches()) {
-                return Optional.of(matcher.group(1));
-            }
-            return Optional.empty();
-        };
+        return new PatternLexer(pattern, Function.identity());
     }
+
+    static <R> Lexer<R> from(List<String> patterns, List<? extends Function<? super String, R>> mappers) {
+        return new PatternLexer(patterns, mappers);
+    }
+
 
     /**
      * A singleton instance of a Lexer that never recognizes anything.
